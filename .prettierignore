@@ -1,0 +1,6 @@
+final-tic-tac-toe
+node_modules
+.expo
+.expo-shared
+package-lock.json
+*.md
