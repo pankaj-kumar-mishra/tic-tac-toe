@@ -6,7 +6,7 @@ type TextProps = {
     children: ReactNode;
 } & NativeTextProps;
 
-const Text = ({ children, style, weight, ...rest }: TextProps): ReactElement => {
+const Text = ({ children, style, weight, ...props }: TextProps): ReactElement => {
     let fontFamily;
     if (weight === "400") {
         fontFamily = "DeliusUnicase_400Regular";
@@ -15,7 +15,7 @@ const Text = ({ children, style, weight, ...rest }: TextProps): ReactElement => 
         fontFamily = "DeliusUnicase_700Bold";
     }
     return (
-        <NativeText {...rest} style={[{ fontFamily }, style]}>
+        <NativeText {...props} style={[{ fontFamily }, style]}>
             {children}
         </NativeText>
     );

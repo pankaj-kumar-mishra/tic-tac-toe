@@ -3,4 +3,6 @@ import AppBootstrap from "./app-bootstrap/app-bootstrap";
 import GradientBackground from "./gradient-background/gradient-background";
 import Button from "./button/button";
 
-export { Text, AppBootstrap, GradientBackground, Button };
+import Board from "./board/board";
+
+export { Text, AppBootstrap, GradientBackground, Button, Board };

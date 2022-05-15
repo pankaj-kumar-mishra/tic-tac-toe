@@ -8,9 +8,9 @@ type ButtonProps = {
     loading?: boolean;
 } & TouchableOpacityProps;
 
-const Button = ({ title, style, loading, ...rest }: ButtonProps): ReactElement => {
+const Button = ({ title, style, loading, ...props }: ButtonProps): ReactElement => {
     return (
-        <TouchableOpacity disabled={loading} {...rest} style={[styles.button, style]}>
+        <TouchableOpacity disabled={loading} {...props} style={[styles.button, style]}>
             {loading ? (
                 <ActivityIndicator color="#000" />
             ) : (
