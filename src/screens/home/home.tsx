@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, FC } from "react";
 import { ScrollView, Image, View } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import styles from "./home.styles";
@@ -9,7 +9,9 @@ type HomeProps = {
     navigation: StackNavigationProp<StackNavParams, "Home">;
 };
 
-const Home = ({ navigation }: HomeProps): ReactElement => {
+// const Home = ({ navigation }: HomeProps): ReactElement => {
+
+const Home: FC<HomeProps> = ({ navigation }) => {
     return (
         <GradientBackground>
             <ScrollView contentContainerStyle={styles.container}>
@@ -22,7 +24,11 @@ const Home = ({ navigation }: HomeProps): ReactElement => {
                     />
                     <Button style={styles.button} title="Multiplayer" />
                     <Button style={styles.button} title="Login" />
-                    <Button style={styles.button} title="Settings" />
+                    <Button
+                        style={styles.button}
+                        title="Settings"
+                        onPress={() => navigation.navigate("Settings")}
+                    />
                 </View>
             </ScrollView>
         </GradientBackground>
