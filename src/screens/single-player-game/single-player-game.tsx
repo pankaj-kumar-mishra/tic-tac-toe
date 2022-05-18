@@ -4,11 +4,13 @@ import { Board, GradientBackground, Text, Button } from "@components";
 import { BoardState, getBestMove, isEmpty, isTerminal, Cell, Winner } from "@utils";
 import { useSounds } from "@hooks";
 import styles from "./single-player-game.styles";
+import { useSettings, difficulties } from "@contexts/settings.context";
 
 const SCREEN_WIDTH = Dimensions.get("screen").width;
 
 const SinglePlayerGame: FC = () => {
     const playSound = useSounds();
+    const { settings } = useSettings();
 
     // prettier-ignore
     const [state, setState] = useState<BoardState>([
@@ -105,7 +107,12 @@ const SinglePlayerGame: FC = () => {
                     setTurn("HUMAN");
                 } else {
                     // maxDepth === is for different level of difficulty
-                    const best = getBestMove(state, !isHumanMaximizing, 0, 1);
+                    const best = getBestMove(
+                        state,
+                        !isHumanMaximizing,
+                        0,
+                        parseInt(settings ? settings.difficulty : "-1")
+                    );
                     insertCell(best, isHumanMaximizing ? "O" : "X");
                     setTurn("HUMAN");
                 }
@@ -123,7 +130,9 @@ const SinglePlayerGame: FC = () => {
         <GradientBackground>
             <View style={styles.container}>
                 <View>
-                    <Text style={styles.difficulty}>Difficulty : Impossible</Text>
+                    <Text style={styles.difficulty}>
+                        Difficulty : {settings ? difficulties[settings.difficulty] : "Impossible"}
+                    </Text>
                     <View style={styles.results}>
                         <View style={styles.resultsBox}>
                             <Text style={styles.resultsTitle}>Wins</Text>

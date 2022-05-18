@@ -1,61 +1,12 @@
-import React, { FC, useState, useEffect } from "react";
+import React, { FC } from "react";
 import { View, ScrollView, TouchableOpacity, Switch } from "react-native";
 import { GradientBackground, Text } from "@components";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "./settings.styles";
 import { colors } from "@utils";
-
-const difficulties = {
-    "1": "Beginner",
-    "3": "Intermediate",
-    "4": "Hard",
-    "-1": "Impossible"
-};
-
-type SettingsType = {
-    difficulty: keyof typeof difficulties; // "-1" | "1" | "3" | "4"
-    haptics: boolean;
-    sounds: boolean;
-};
-
-const defaultSettings: SettingsType = {
-    difficulty: "-1",
-    haptics: true,
-    sounds: true
-};
+import { difficulties, useSettings } from "@contexts/settings.context";
 
 const Settings: FC = () => {
-    const [settings, setSettings] = useState<SettingsType | null>(null);
-
-    const loadSettings = async () => {
-        try {
-            const settingsData = await AsyncStorage.getItem("@settings");
-            settingsData === null
-                ? setSettings(defaultSettings)
-                : setSettings(JSON.parse(settingsData));
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    useEffect(() => {
-        loadSettings();
-    }, []);
-
-    // const saveSetting = async (setting: keyof SettingsType, value: string | boolean) => {
-    const saveSetting = async <T extends keyof SettingsType>(
-        setting: T,
-        value: SettingsType[T]
-    ) => {
-        try {
-            const oldSettings = settings ? settings : defaultSettings;
-            const newSettings = { ...oldSettings, [setting]: value };
-            await AsyncStorage.setItem("@settings", JSON.stringify(newSettings));
-            setSettings(newSettings);
-        } catch (error) {
-            console.log(error);
-        }
-    };
+    const { settings, saveSetting } = useSettings();
 
     if (!settings) {
         return (

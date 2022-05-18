@@ -2,10 +2,13 @@
 import { useRef, useEffect } from "react";
 import { Audio } from "expo-av";
 import * as Haptics from "expo-haptics";
+import { useSettings } from "@contexts/settings.context";
 
 type SoundType = "pop1" | "pop2" | "win" | "loss" | "draw";
 
 const useSounds = (): ((sound: SoundType) => void) => {
+    const { settings } = useSettings();
+
     const popSoundRef = useRef<Audio.Sound | null>(null);
     const pop2SoundRef = useRef<Audio.Sound | null>(null);
     const winSoundRef = useRef<Audio.Sound | null>(null);
@@ -26,9 +29,12 @@ const useSounds = (): ((sound: SoundType) => void) => {
             // soundMap[sound].current?.replayAsync();
             // check file loaded then play if loaded
             const status = await soundMap[sound].current?.getStatusAsync();
-            if (status && status.isLoaded) {
+            if (status && status.isLoaded && settings?.sounds) {
                 soundMap[sound].current?.replayAsync();
             }
+
+            if (!settings?.haptics) return;
+
             switch (sound) {
                 case "pop1":
                 case "pop2":
